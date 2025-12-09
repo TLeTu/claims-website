@@ -1,0 +1,59 @@
+@model claims_website.Models.RegisterViewModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+<div class="text-center">
+    <div class="container d-flex justify-content-center align-items-center" style="min-height: 60vh;">
+        <form method="post" asp-controller="Account" asp-action="RegisterPost" class="w-100" style="max-width: 400px;">
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+            <h2 class="mb-4">Create Account</h2>
+            <div class="mb-3 text-start">
+                <input asp-for="Email" class="form-control" id="email" name="email" placeholder="Email" required />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="mb-3 text-start">
+                <input asp-for="Phone" class="form-control" id="phone" name="phone" placeholder="Phone Number" required
+                    style="width: 100%;" />
+                <span asp-validation-for="Phone" class="text-danger"></span>
+            </div>
+            <div class="mb-3 text-start">
+                <input asp-for="Password" class="form-control" placeholder="Password" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="mb-3 text-start">
+                <input asp-for="ConfirmPassword" class="form-control" placeholder="Confirm Password" />
+                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Submit</button>
+        </form>
+    </div>
+
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@18.1.1/build/css/intlTelInput.min.css" />
+    <style>
+        .iti {
+            width: 100%;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@18.1.1/build/js/intlTelInput.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var input = document.querySelector("#phone");
+            if (input) {
+                window.intlTelInput(input, {
+                    initialCountry: "auto",
+                    geoIpLookup: function (callback) {
+                        fetch('https://ipinfo.io/json')
+                            .then(resp => resp.json())
+                            .then(resp => callback(resp.country ? resp.country : "us"));
+                    },
+                    utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@18.1.1/build/js/utils.js"
+                });
+            }
+        });
+    </script>
+}
