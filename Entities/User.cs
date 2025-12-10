@@ -11,6 +11,9 @@ public class User
     [Column("user_id")]
     public int Id { get; set; } // Or public int UserId { get; set; }
 
+    [Column("customer_id")]
+    public int? CustomerId { get; set; } // Nullable int
+
     [Column("email")]
     public required string Email { get; set; }
 

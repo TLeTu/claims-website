@@ -6,6 +6,7 @@ using claims_website.Entities;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 
 using Microsoft.AspNetCore.Identity;
 
@@ -16,15 +17,18 @@ public class AccountController : Controller
     private readonly ILogger<AccountController> _logger;
     private readonly IPasswordHasher<object> _passwordHasher;
     private readonly IUserRepository _userRepo;
+    private readonly ICustomerRepository _customerRepo;
 
     public AccountController(
         ILogger<AccountController> logger,
         IPasswordHasher<object> passwordHasher,
-        IUserRepository userRepo)
+        IUserRepository userRepo,
+        ICustomerRepository customerRepo)
     {
         _logger = logger;
         _passwordHasher = passwordHasher;
         _userRepo = userRepo;
+        _customerRepo = customerRepo;
     }
 
     public IActionResult Login()
@@ -35,6 +39,61 @@ public class AccountController : Controller
     public IActionResult Register()
     {
         return View();
+    }
+
+    [Authorize] // Ensure only logged-in users can hit this
+    [HttpGet]
+    public async Task<IActionResult> AccountDetails()
+    {
+        // 1. Get UserId safely from the cookie
+        var userIdClaim = User.Claims.FirstOrDefault(c => c.Type == "UserId");
+        if (userIdClaim == null || !int.TryParse(userIdClaim.Value, out int userId))
+        {
+            return RedirectToAction("Login");
+        }
+
+        // 2. Get User Entity
+        var user = await _userRepo.GetByIdAsync(userId);
+        if (user == null)
+        {
+            return RedirectToAction("Login");
+        }
+
+        // 3. Get Customer Entity (SAFELY)
+        // We create a variable for customer and default it to null.
+        claims_website.Entities.Customer? customer = null;
+
+        // Check if the User actually has a linked CustomerId in the DB
+        // (Assuming your User entity has: public int? CustomerId { get; set; })
+        if (user.CustomerId.HasValue)
+        {
+            customer = await _customerRepo.GetByIdAsync(user.CustomerId.Value);
+        }
+
+        // 4. Map to ViewModel
+        var model = new AccountDetailsViewModel
+        {
+            UserId = user.Id,
+            Email = user.Email ?? string.Empty,
+            Phone = user.Phone ?? string.Empty,
+            CreatedAt = user.CreatedAt,
+
+            // --- Safe Mapping with Null Coalescing ---
+
+            // If customer is null, ID is 0
+            CustomerId = customer?.Id ?? 0,
+
+            // If customer is null, DateOfBirth is null
+            DateOfBirth = customer?.DateOfBirth,
+
+            // If customer is null OR column is null, use empty string
+            Borough = customer?.Borough ?? string.Empty,
+            Neighborhood = customer?.Neighborhood ?? string.Empty,
+            ZipCode = customer?.ZipCode ?? string.Empty,
+            Name = customer?.Name ?? string.Empty
+        };
+
+        return View(model);
     }
 
     [HttpPost]
@@ -119,7 +178,7 @@ public class AccountController : Controller
             authProperties);
 
         _logger.LogInformation("User {Email} logged in.", user.Email);
-        
+
 
         return RedirectToAction("Index", "Home");
     }

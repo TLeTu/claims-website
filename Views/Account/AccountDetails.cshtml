@@ -1,0 +1,60 @@
+@model claims_website.Models.AccountDetailsViewModel
+@{
+    ViewData["Title"] = "Account Details";
+}
+
+<div class="text-center">
+    <div class="container" style="min-height: 60vh; max-width: 600px;">
+        <h2 class="mb-4">Account Details</h2>
+        
+        <form method="post" class="text-start">
+            <input type="hidden" asp-for="UserId" />
+            <input type="hidden" asp-for="CustomerId" />
+
+            <div class="mb-3">
+                <label asp-for="Email" class="form-label">Email</label>
+                <input asp-for="Email" class="form-control" readonly />
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Phone" class="form-label">Phone</label>
+                <input asp-for="Phone" class="form-control" />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Created At</label>
+                <input type="text" class="form-control" value="@Model.CreatedAt.ToString("yyyy-MM-dd HH:mm")" readonly />
+            </div>
+
+            <hr />
+
+            <div class="mb-3">
+                <label asp-for="Name" class="form-label">Full Name</label>
+                <input asp-for="Name" class="form-control" />
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="DateOfBirth" class="form-label">Date of Birth</label>
+                <input asp-for="DateOfBirth" type="date" class="form-control" />
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Borough" class="form-label">Borough</label>
+                    <input asp-for="Borough" class="form-control" />
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Neighborhood" class="form-label">Neighborhood</label>
+                    <input asp-for="Neighborhood" class="form-control" />
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="ZipCode" class="form-label">Zip Code</label>
+                <input asp-for="ZipCode" class="form-control" />
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100 mt-3">Save Changes</button>
+        </form>
+    </div>
+</div>
