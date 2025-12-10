@@ -53,6 +53,12 @@ public class AccountController : Controller
             ModelState.AddModelError("Email", "This email is already registered.");
             return View("Register", model);
         }
+        var existingUserByPhone = await _userRepo.GetByPhoneAsync(model.Phone);
+        if (existingUserByPhone != null)
+        {
+            ModelState.AddModelError("Phone", "This phone number is already registered.");
+            return View("Register", model);
+        }
 
         string hashedPassword = _passwordHasher.HashPassword(model.Email, model.Password);
 

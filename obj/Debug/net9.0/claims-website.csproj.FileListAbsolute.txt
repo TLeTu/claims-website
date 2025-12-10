@@ -101,3 +101,4 @@
 /mnt/HDD/Projects/claims-website/bin/Debug/net9.0/Npgsql.EntityFrameworkCore.PostgreSQL.dll
 /mnt/HDD/Projects/claims-website/obj/Debug/net9.0/claims-website.csproj.AssemblyReference.cache
 /mnt/HDD/Projects/claims-website/obj/Debug/net9.0/claims-w.FD16A5EC.Up2Date
+/mnt/HDD/Projects/claims-website/obj/Debug/net9.0/claims-website.sourcelink.json
