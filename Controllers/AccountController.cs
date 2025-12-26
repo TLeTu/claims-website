@@ -18,17 +18,20 @@ public class AccountController : Controller
     private readonly IPasswordHasher<object> _passwordHasher;
     private readonly IUserRepository _userRepo;
     private readonly ICustomerRepository _customerRepo;
+    private readonly IPolicyRepository _policyRepo;
 
     public AccountController(
         ILogger<AccountController> logger,
         IPasswordHasher<object> passwordHasher,
         IUserRepository userRepo,
-        ICustomerRepository customerRepo)
+        ICustomerRepository customerRepo,
+        IPolicyRepository policyRepo)
     {
         _logger = logger;
         _passwordHasher = passwordHasher;
         _userRepo = userRepo;
         _customerRepo = customerRepo;
+        _policyRepo = policyRepo;
     }
 
     public IActionResult Login()
@@ -96,6 +99,43 @@ public class AccountController : Controller
         return View(model);
     }
 
+    [Authorize]
+    [HttpGet]
+    public async Task<IActionResult> Policy()
+    {
+        // 1. Get UserId from Claims
+        var userIdClaim = User.Claims.FirstOrDefault(c => c.Type == "UserId");
+        if (userIdClaim == null || !int.TryParse(userIdClaim.Value, out int userId))
+        {
+            return RedirectToAction("Login");
+        }
+
+        // 2. Get User Entity
+        var user = await _userRepo.GetByIdAsync(userId);
+        if (user == null || !user.CustomerId.HasValue)
+        {
+            return RedirectToAction("Login");
+        }
+
+        // 3. Get Policies for the Customer
+        var policies = await _policyRepo.GetByCustomerIdAsync(user.CustomerId.Value.ToString());
+
+        // 4. Map to ViewModel
+        var policyViewModels = policies.Select(p => new PolicyViewModel
+        {
+            PolicyNo = p.PolicyNo,
+            VehicleDescription = $"{(p.ModelYear?.ToString() ?? "").Trim()} {(p.Make ?? "").Trim()} {(p.Model ?? "").Trim()}".Trim(),
+            ChassisNo = p.ChassisNo ?? string.Empty,
+            Product = p.Product ?? string.Empty,
+            SumInsured = p.SumInsured ?? 0,
+            Premium = p.Premium ?? 0,
+            StartDate = p.PolEffDate,
+            EndDate = p.PolExpiryDate,
+        }).ToList();
+
+        return View(policyViewModels);
+    }
+
     [HttpPost]
     public async Task<IActionResult> RegisterPost(RegisterViewModel model)
     {
@@ -121,19 +161,28 @@ public class AccountController : Controller
 
         string hashedPassword = _passwordHasher.HashPassword(model.Email, model.Password);
 
+        // 1. Create a new Customer with empty columns
+        var newCustomer = new Customer
+        {
+            // All fields left as default/null/empty
+        };
+        await _customerRepo.AddAsync(newCustomer);
+
+        // 2. Create the new User and assign the CustomerId
         var newUser = new User
         {
             Email = model.Email,
             Phone = model.Phone,
             HashedPassword = hashedPassword,
             CreatedAt = DateTime.UtcNow,
+            CustomerId = newCustomer.Id // assign the new Customer's ID
         };
 
         await _userRepo.AddAsync(newUser);
 
         _logger.LogInformation("User registered successfully via Repository.");
 
-        return RedirectToAction("Home", "Index");
+        return RedirectToAction("Index", "Home");
     }
 
     [HttpPost]

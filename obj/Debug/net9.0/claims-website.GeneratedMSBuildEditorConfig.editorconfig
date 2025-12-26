@@ -1,5 +1,7 @@
 is_global = true
 build_property.TargetFramework = net9.0
+build_property.TargetFrameworkIdentifier = .NETCoreApp
+build_property.TargetFrameworkVersion = v9.0
 build_property.TargetPlatformMinVersion = 
 build_property.UsingMicrosoftNETSdkWeb = true
 build_property.ProjectTypeGuids = 
@@ -26,6 +28,14 @@ build_metadata.AdditionalFiles.CssScope =
 
 [/mnt/HDD/Projects/claims-website/Views/Account/Login.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWNjb3VudC9Mb2dpbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/mnt/HDD/Projects/claims-website/Views/Account/Policy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWNjb3VudC9Qb2xpY3kuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/mnt/HDD/Projects/claims-website/Views/Account/PolicyDetails.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWNjb3VudC9Qb2xpY3lEZXRhaWxzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [/mnt/HDD/Projects/claims-website/Views/Account/Register.cshtml]

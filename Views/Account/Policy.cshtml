@@ -1,0 +1,60 @@
+@model IEnumerable<claims_website.Models.PolicyViewModel>
+@{
+    ViewData["Title"] = "My Policies";
+}
+
+<div class="container py-4" style="max-width: 800px;">
+    <h2 class="mb-4">My Policies <span class="badge bg-primary fs-6 align-middle">@Model.Count()</span></h2>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info">
+            You don't have any active policies. <a href="#" class="alert-link">Get a Quote today!</a>
+        </div>
+    }
+
+    <div class="row">
+        @foreach (var policy in Model)
+        {
+            <div class="col-12 mb-3">
+                <div class="card shadow-sm border-start border-4 @(policy.IsActive ? "border-success" : "border-secondary")">
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            
+                            <div class="col-md-5">
+                                <h5 class="card-title fw-bold mb-1">@policy.VehicleDescription</h5>
+                                <div class="text-muted small mb-2">VIN: @policy.ChassisNo</div>
+                                <span class="badge @policy.StatusBadgeClass">@policy.StatusText</span>
+                                <span class="badge bg-light text-dark border">@policy.Product</span>
+                            </div>
+
+                            <div class="col-md-4 border-start-md ps-md-4 my-3 my-md-0">
+                                <div class="small text-muted">Coverage Period</div>
+                                <div>
+                                    @(policy.StartDate.HasValue ? policy.StartDate.Value.ToString("MMM dd, yyyy") : "N/A")
+                                    &rarr;
+                                    @(policy.EndDate.HasValue ? policy.EndDate.Value.ToString("MMM dd, yyyy") : "N/A")
+                                </div>
+                                <div class="mt-2 small text-muted">Sum Insured</div>
+                                <div class="fw-bold text-primary">@policy.SumInsured.ToString("C0")</div>
+                            </div>
+
+                            <div class="col-md-3 text-end">
+                                <div class="d-grid gap-2">
+                                    <a href="#" class="btn btn-outline-primary btn-sm">View Details</a>
+                                    @if(policy.IsActive) {
+                                        <a href="#" class="btn btn-danger btn-sm">File a Claim</a>
+                                    }
+                                    else {
+                                        <a href="#" class="btn btn-success btn-sm">Renew</a>
+                                    }
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
