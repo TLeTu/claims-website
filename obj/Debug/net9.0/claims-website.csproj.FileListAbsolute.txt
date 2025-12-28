@@ -36,9 +36,7 @@
 /mnt/HDD/Projects/claims-website/obj/Debug/net9.0/rjimswa.dswa.cache.json
 /mnt/HDD/Projects/claims-website/obj/Debug/net9.0/rjsmrazor.dswa.cache.json
 /mnt/HDD/Projects/claims-website/obj/Debug/net9.0/rjsmcshtml.dswa.cache.json
-/mnt/HDD/Projects/claims-website/obj/Debug/net9.0/compressed/frv8lux88p-{0}-lugek5hnai-lugek5hnai.gz
 /mnt/HDD/Projects/claims-website/obj/Debug/net9.0/compressed/qbm88hv703-{0}-61n19gt1b8-61n19gt1b8.gz
-/mnt/HDD/Projects/claims-website/obj/Debug/net9.0/compressed/xm290uiy7p-{0}-fr7q2aak1r-fr7q2aak1r.gz
 /mnt/HDD/Projects/claims-website/obj/Debug/net9.0/compressed/ekwqmlz5vu-{0}-bqjiyaj88i-bqjiyaj88i.gz
 /mnt/HDD/Projects/claims-website/obj/Debug/net9.0/compressed/8vs66uuubz-{0}-c2jlpeoesf-c2jlpeoesf.gz
 /mnt/HDD/Projects/claims-website/obj/Debug/net9.0/compressed/xbuqza6n9d-{0}-erw9l3u2r3-erw9l3u2r3.gz
@@ -98,7 +96,10 @@
 /mnt/HDD/Projects/claims-website/obj/Debug/net9.0/compressed/eq9fajxri4-{0}-muycvpuwrr-muycvpuwrr.gz
 /mnt/HDD/Projects/claims-website/obj/Debug/net9.0/compressed/7bp1oxwc8w-{0}-87fc7y1x7t-87fc7y1x7t.gz
 /mnt/HDD/Projects/claims-website/obj/Debug/net9.0/compressed/9vkn8l2r60-{0}-jfsiqqwiad-jfsiqqwiad.gz
-/mnt/HDD/Projects/claims-website/obj/Debug/net9.0/compressed/gtublum0hl-{0}-v3vvp9sg2z-v3vvp9sg2z.gz
-/mnt/HDD/Projects/claims-website/obj/Debug/net9.0/compressed/8rfr9yyrxz-{0}-v3vvp9sg2z-v3vvp9sg2z.gz
 /mnt/HDD/Projects/claims-website/obj/Debug/net9.0/staticwebassets.build.json.cache
 /mnt/HDD/Projects/claims-website/obj/Debug/net9.0/swae.build.ex.cache
+/mnt/HDD/Projects/claims-website/obj/Debug/net9.0/compressed/spk3w8xu6y-{0}-d9oenh7ezz-d9oenh7ezz.gz
+/mnt/HDD/Projects/claims-website/obj/Debug/net9.0/compressed/xm290uiy7p-{0}-ke5cnbumw1-ke5cnbumw1.gz
+/mnt/HDD/Projects/claims-website/obj/Debug/net9.0/compressed/frv8lux88p-{0}-yklp7tjked-yklp7tjked.gz
+/mnt/HDD/Projects/claims-website/obj/Debug/net9.0/compressed/gtublum0hl-{0}-w8brv6gjkx-w8brv6gjkx.gz
+/mnt/HDD/Projects/claims-website/obj/Debug/net9.0/compressed/8rfr9yyrxz-{0}-w8brv6gjkx-w8brv6gjkx.gz

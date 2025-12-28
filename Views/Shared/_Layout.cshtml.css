@@ -1,48 +1,107 @@
-﻿/* Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
-for details on configuring this project to bundle and minify static web assets. */
+﻿/* Layout-level styles: modern, subtle, and accessible */
 
-a.navbar-brand {
-  white-space: normal;
-  text-align: center;
-  word-break: break-all;
+.app-body {
+  background: var(--surface, #f7f8fa);
 }
 
-a {
-  color: #0077cc;
+.app-header {
+  background: #000;
+  border-bottom: 1px solid #111;
+  position: relative;
 }
 
-.btn-primary {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
-}
-
-.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
-}
-
-.border-top {
-  border-top: 1px solid #e5e5e5;
-}
-.border-bottom {
-  border-bottom: 1px solid #e5e5e5;
-}
-
-.box-shadow {
-  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
-}
-
-button.accept-policy {
-  font-size: 1rem;
-  line-height: inherit;
-}
-
-.footer {
+/* Soft gradient sheen and slim top glow */
+.app-header::before {
+  content: "";
   position: absolute;
-  bottom: 0;
-  width: 100%;
-  white-space: nowrap;
-  line-height: 60px;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(255,255,255,.06), transparent 40%);
+}
+.app-header::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; top: 0;
+  height: 2px;
+  background: linear-gradient(90deg, rgba(96,165,250,.6), rgba(34,197,94,.6));
+}
+
+.navbar-brand .brand-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: .5rem;
+  background: linear-gradient(135deg, var(--brand, #2563eb), #22c55e);
+  box-shadow: 0 0 0 3px #e9f0ff;
+}
+
+.app-main {
+  min-height: 60vh;
+}
+
+.app-footer {
+  background: #000;
+  border-top: 1px solid #111;
+  position: relative;
+}
+.app-footer::before {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; top: 0;
+  height: 2px;
+  background: linear-gradient(90deg, rgba(96,165,250,.35), rgba(34,197,94,.35));
+}
+
+/* Dark header/footer variants (picked up via site.css html[data-theme]) */
+html[data-theme="dark"] .app-header,
+html[data-theme="dark"] .app-footer {
+  background: #0f172a;
+}
+
+/* Tidy default link color in layout */
+.app-header .nav-link {
+  color: #e5e7eb;
+}
+.app-header .nav-link:hover,
+.app-header .nav-link:focus {
+  color: var(--brand, #60a5fa);
+}
+
+/* Buttons variants that align with our palette */
+.btn-primary {
+  background-color: var(--brand, #2563eb);
+  border-color: var(--brand, #2563eb);
+}
+.navbar-brand {
+  color: #f3f4f6;
+}
+.navbar-brand:hover { color: #fff; }
+.navbar-brand .brand-dot {
+  box-shadow: 0 0 0 3px rgba(255,255,255,.12);
+  animation: dotPulse 2.2s ease-in-out infinite;
+}
+
+@keyframes dotPulse {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 0 3px rgba(255,255,255,.12); }
+  50% { transform: scale(1.06); box-shadow: 0 0 0 5px rgba(96,165,250,.18); }
+}
+
+/* Footer text/link colors for readability on black */
+.app-footer .text-muted { color: #cbd5e1 !important; }
+.app-footer a { color: #93c5fd; }
+.app-footer a:hover { color: #bfdbfe; }
+.btn-outline-danger {
+  --bs-btn-color: #b42318;
+  --bs-btn-border-color: #f1a29c;
+  --bs-btn-hover-bg: #ffe8e6;
+  --bs-btn-hover-border-color: #f1a29c;
+}
+
+/* Secondary outline used for theme toggle */
+.btn-outline-secondary {
+  --bs-btn-color: #475569;
+  --bs-btn-border-color: #cbd5e1;
+  --bs-btn-hover-bg: #f1f5f9;
+  --bs-btn-hover-border-color: #cbd5e1;
 }

@@ -1,0 +1,47 @@
+@model IEnumerable<claims_website.Models.PolicyViewModel>
+@{
+    ViewData["Title"] = "My Policies";
+}
+
+<div class="minimal-container accent-card">
+    <h2 class="page-title title-gradient">My Policies (@Model.Count())</h2>
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info mt-3">You don't have any active policies.</div>
+    }
+    else
+    {
+        <div class="table-responsive mt-3">
+            <table class="table table-modern align-middle">
+                <thead>
+                    <tr>
+                        <th>Vehicle</th>
+                        <th>Status</th>
+                        <th>Product</th>
+                        <th>Term</th>
+                        <th class="text-end">Sum Insured</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (var policy in Model)
+                {
+
+                    <tr>
+                        <td class="fw-medium">@policy.VehicleDescription</td>
+                        <td>
+                            <span class="badge-soft @(policy.StatusText?.ToLower().Contains("active") == true ? "badge-green" : "badge-amber")">@policy.StatusText</span>
+                        </td>
+                        <td>@policy.Product</td>
+                        <td>@(policy.StartDate.HasValue ? policy.StartDate.Value.ToShortDateString() : "N/A") - @(policy.EndDate.HasValue ? policy.EndDate.Value.ToShortDateString() : "N/A")</td>
+                        <td class="text-end">@policy.SumInsured.ToString("C0")</td>
+                        <td class="text-end">
+                            <a class="btn btn-sm btn-gradient" asp-controller="Policy" asp-action="PolicyDetails" asp-route-id="@policy.PolicyNo">View</a>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>

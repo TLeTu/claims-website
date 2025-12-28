@@ -10,4 +10,5 @@ public class AppDbContext : DbContext
     public DbSet<User> user { get; set; }
     public DbSet<Customer> customer { get; set; }
     public DbSet<Policy> policy { get; set; }
+    public DbSet<InsuranceClaim> claim { get; set; }
 }

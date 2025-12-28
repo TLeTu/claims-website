@@ -1,0 +1,66 @@
+/* Modernized minimal components keeping class names intact */
+.minimal-container {
+  max-width: 760px;
+  margin: 48px auto;
+  padding: 28px 24px;
+  background: var(--card, #fff);
+  border: 1px solid var(--stroke, #e5e7eb);
+  border-radius: var(--radius, 12px);
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.06);
+}
+.minimal-container h2 {
+  font-size: clamp(1.35rem, 1.1rem + 1vw, 1.8rem);
+  margin: 0 0 1rem 0;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  text-align: left;
+}
+
+.minimal-field {
+  display: flex;
+  flex-direction: column;
+  gap: .4rem;
+  margin-bottom: 1rem;
+}
+.minimal-field label {
+  font-size: .95rem;
+  color: #111827;
+  font-weight: 600;
+}
+.minimal-field input,
+.minimal-field select {
+  padding: .7rem .9rem;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  font-size: 1rem;
+  background: #fff;
+}
+.minimal-field input:hover,
+.minimal-field select:hover { border-color: #b6bcc6; }
+.minimal-field input:focus,
+.minimal-field select:focus { border-color: var(--brand, #2563eb); box-shadow: var(--ring); outline: none; }
+
+.minimal-list { list-style: none; padding: 0; margin: 0; }
+.minimal-list li { padding: .85rem 0; border-bottom: 1px solid #eef2f7; }
+
+.minimal-actions { display: flex; gap: .75rem; align-items: center; }
+.minimal-link { color: var(--brand, #2563eb); text-decoration: none; font-weight: 600; }
+.minimal-link:hover { text-decoration: underline; }
+
+.minimal-container button,
+.minimal-btn {
+  width: 100%;
+  padding: .75rem 1rem;
+  background: var(--brand, #2563eb);
+  color: #fff;
+  border: 1px solid var(--brand, #2563eb);
+  border-radius: 10px;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: .5rem;
+}
+.minimal-container button:hover,
+.minimal-btn:hover { background: #1d4ed8; border-color: #1d4ed8; }
+
+/* Compact card variant for smaller forms */
+.minimal-narrow { max-width: 460px; }

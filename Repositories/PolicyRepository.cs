@@ -15,4 +15,9 @@ public class PolicyRepository : BaseRepository<Policy>, IPolicyRepository
     {
         return await _dbSet.Where(p => p.CustId == customerId).ToListAsync();
     }
+
+    public async Task<Policy?> GetByPolicyNoAsync(string policyNo)
+    {
+        return await _dbSet.FirstOrDefaultAsync(p => p.PolicyNo == policyNo);
+    }
 }

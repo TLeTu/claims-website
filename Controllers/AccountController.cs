@@ -19,19 +19,22 @@ public class AccountController : Controller
     private readonly IUserRepository _userRepo;
     private readonly ICustomerRepository _customerRepo;
     private readonly IPolicyRepository _policyRepo;
+    private readonly IClaimRepository _claimRepo;
 
     public AccountController(
         ILogger<AccountController> logger,
         IPasswordHasher<object> passwordHasher,
         IUserRepository userRepo,
         ICustomerRepository customerRepo,
-        IPolicyRepository policyRepo)
+        IPolicyRepository policyRepo,
+        IClaimRepository claimRepo)
     {
         _logger = logger;
         _passwordHasher = passwordHasher;
         _userRepo = userRepo;
         _customerRepo = customerRepo;
         _policyRepo = policyRepo;
+        _claimRepo = claimRepo;
     }
 
     public IActionResult Login()
@@ -99,42 +102,7 @@ public class AccountController : Controller
         return View(model);
     }
 
-    [Authorize]
-    [HttpGet]
-    public async Task<IActionResult> Policy()
-    {
-        // 1. Get UserId from Claims
-        var userIdClaim = User.Claims.FirstOrDefault(c => c.Type == "UserId");
-        if (userIdClaim == null || !int.TryParse(userIdClaim.Value, out int userId))
-        {
-            return RedirectToAction("Login");
-        }
-
-        // 2. Get User Entity
-        var user = await _userRepo.GetByIdAsync(userId);
-        if (user == null || !user.CustomerId.HasValue)
-        {
-            return RedirectToAction("Login");
-        }
-
-        // 3. Get Policies for the Customer
-        var policies = await _policyRepo.GetByCustomerIdAsync(user.CustomerId.Value.ToString());
-
-        // 4. Map to ViewModel
-        var policyViewModels = policies.Select(p => new PolicyViewModel
-        {
-            PolicyNo = p.PolicyNo,
-            VehicleDescription = $"{(p.ModelYear?.ToString() ?? "").Trim()} {(p.Make ?? "").Trim()} {(p.Model ?? "").Trim()}".Trim(),
-            ChassisNo = p.ChassisNo ?? string.Empty,
-            Product = p.Product ?? string.Empty,
-            SumInsured = p.SumInsured ?? 0,
-            Premium = p.Premium ?? 0,
-            StartDate = p.PolEffDate,
-            EndDate = p.PolExpiryDate,
-        }).ToList();
-
-        return View(policyViewModels);
-    }
+    
 
     [HttpPost]
     public async Task<IActionResult> RegisterPost(RegisterViewModel model)

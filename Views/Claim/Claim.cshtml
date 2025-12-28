@@ -1,0 +1,44 @@
+@model IEnumerable<claims_website.Models.ClaimViewModel>
+@{
+    ViewData["Title"] = "My Claims";
+}
+
+<div class="minimal-container accent-card">
+    <h2 class="page-title title-gradient">Claim History</h2>
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info mt-3">No claims found.</div>
+    }
+    else
+    {
+        <div class="table-responsive mt-3">
+            <table class="table table-modern align-middle">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Type</th>
+                        <th>Status</th>
+                        <th class="text-end">Total</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (var claim in Model.OrderByDescending(c => c.IncidentDate))
+                {
+                    <tr>
+                        <td>@claim.IncidentDate.ToShortDateString()</td>
+                        <td>@claim.IncidentType</td>
+                        <td>
+                            <span class="badge-soft @(claim.Status?.ToLower().Contains("paid") == true ? "badge-green" : claim.Status?.ToLower().Contains("pending") == true ? "badge-amber" : "badge-red")">@claim.Status</span>
+                        </td>
+                        <td class="text-end">@claim.TotalAmount.ToString("C0")</td>
+                        <td class="text-end">
+                            <a class="btn btn-sm btn-gradient" asp-controller="Claim" asp-action="ClaimDetails" asp-route-id="@claim.ClaimNo">View</a>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>

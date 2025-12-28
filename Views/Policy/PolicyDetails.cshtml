@@ -1,0 +1,99 @@
+@model claims_website.Models.PolicyDetailsViewModel
+@{
+    ViewData["Title"] = "Policy Details";
+}
+
+<div class="minimal-container accent-card">
+    <h2 class="page-title title-gradient">Policy #@Model.PolicyNo</h2>
+
+    <div class="row g-4 mt-1">
+        <div class="col-12 col-lg-8">
+            <div class="card-elevated p-3">
+                <div class="row g-3">
+                    <div class="col-12 col-md-6">
+                        <div class="text-muted small">Vehicle</div>
+                        <div class="fw-semibold">@Model.VehicleDescription (@Model.ChassisNo)</div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <div class="text-muted small">Status</div>
+                        <div><span class="badge-soft @(Model.StatusText?.ToLower().Contains("active") == true ? "badge-green" : "badge-amber")">@Model.StatusText</span></div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <div class="text-muted small">Plan</div>
+                        <div class="fw-semibold">@Model.Product</div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <div class="text-muted small">Usage</div>
+                        <div>@Model.Usage</div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <div class="text-muted small">Effective</div>
+                        <div>@(Model.StartDate.HasValue ? Model.StartDate.Value.ToShortDateString() : "N/A")</div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <div class="text-muted small">Expiry</div>
+                        <div>@(Model.EndDate.HasValue ? Model.EndDate.Value.ToShortDateString() : "N/A")</div>
+                    </div>
+                </div>
+                <hr class="my-3" />
+                <div class="row g-3">
+                    <div class="col-6 col-md-4">
+                        <div class="text-muted small">Sum Insured</div>
+                        <div class="fw-semibold">@Model.SumInsured.ToString("C0")</div>
+                    </div>
+                    <div class="col-6 col-md-4">
+                        <div class="text-muted small">Premium</div>
+                        <div class="fw-semibold">@Model.Premium.ToString("C0")</div>
+                    </div>
+                    <div class="col-6 col-md-4">
+                        <div class="text-muted small">Deductible</div>
+                        <div class="fw-semibold">@(Model.Deductible.HasValue ? Model.Deductible.Value.ToString("C0") : "N/A")</div>
+                    </div>
+                </div>
+            </div>
+
+            @if(Model.ClaimsHistory.Any())
+            {
+                <div class="card-elevated p-3 mt-3">
+                    <h5 class="mb-3">Claims History</h5>
+                    <div class="list-group">
+                        @foreach(var claim in Model.ClaimsHistory)
+                        {
+                            <a asp-controller="Claim" asp-action="ClaimDetails" asp-route-id="@claim.ClaimNo" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                <div>
+                                    <div class="fw-semibold">@claim.Type</div>
+                                    <small class="text-muted">@(claim.IncidentDate.HasValue ? claim.IncidentDate.Value.ToShortDateString() : "N/A") • @claim.Severity</small>
+                                </div>
+                                <span class="badge-soft">@string.Format("{0:C0}", claim.TotalAmount)</span>
+                            </a>
+                        }
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-success mt-3">No claims filed for this vehicle. Great driving!</div>
+            }
+        </div>
+
+        <div class="col-12 col-lg-4">
+            <div class="card-elevated p-3 d-grid gap-2">
+                <h5 class="mb-2">Quick Actions</h5>
+                <a href="@Model.PolicyDocumentUrl" class="btn btn-gradient" target="_blank">Download Certificate</a>
+                @if(Model.IsActive)
+                {
+                    <a href="/Claims/Create?policyId=@Model.PolicyNo" class="btn btn-gradient">Report an Accident</a>
+                }
+                else
+                {
+                    <button class="btn btn-gradient" type="button">Renew Policy</button>
+                }
+                <hr />
+                <div class="text-muted small">
+                    Need help? Call support at <strong>1-800-INSURE-ME</strong><br />
+                    Ref ID: <code>@Model.PolicyNo</code>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

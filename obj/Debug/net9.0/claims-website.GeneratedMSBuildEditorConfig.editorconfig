@@ -30,16 +30,16 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWNjb3VudC9Mb2dpbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/mnt/HDD/Projects/claims-website/Views/Account/Policy.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWNjb3VudC9Qb2xpY3kuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[/mnt/HDD/Projects/claims-website/Views/Account/PolicyDetails.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWNjb3VudC9Qb2xpY3lEZXRhaWxzLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
 [/mnt/HDD/Projects/claims-website/Views/Account/Register.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWNjb3VudC9SZWdpc3Rlci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/mnt/HDD/Projects/claims-website/Views/Claim/Claim.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQ2xhaW0vQ2xhaW0uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/mnt/HDD/Projects/claims-website/Views/Claim/ClaimDetails.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQ2xhaW0vQ2xhaW1EZXRhaWxzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [/mnt/HDD/Projects/claims-website/Views/Home/Index.cshtml]
@@ -48,6 +48,14 @@ build_metadata.AdditionalFiles.CssScope =
 
 [/mnt/HDD/Projects/claims-website/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9Qcml2YWN5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/mnt/HDD/Projects/claims-website/Views/Policy/Policy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUG9saWN5L1BvbGljeS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/mnt/HDD/Projects/claims-website/Views/Policy/PolicyDetails.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUG9saWN5L1BvbGljeURldGFpbHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [/mnt/HDD/Projects/claims-website/Views/Shared/Error.cshtml]
