@@ -1,0 +1,143 @@
+@{
+    ViewData["Title"] = "File a Claim";
+}
+
+<div class="minimal-container accent-card">
+    <h2 class="page-title title-gradient">File a Claim</h2>
+    <p class="text-muted">Provide the details below to start your claim. You can always upload more documents later.</p>
+
+    <form class="stack" method="post" enctype="multipart/form-data">
+        <!-- Policy Info -->
+        <div class="card-elevated p-3">
+            <h5 class="mb-3">Policy Information</h5>
+            <div class="row g-3">
+                <div class="col-12 col-md-6">
+                    <label for="policyNumber" class="form-label">Policy Number</label>
+                    <input type="text" class="form-control" id="policyNumber" name="policy_number" required />
+                </div>
+            </div>
+        </div>
+        <!-- What & When -->
+        <div class="card-elevated p-3">
+            <h5 class="mb-3">What & When</h5>
+            <div class="row g-3">
+                <div class="col-12 col-md-6">
+                    <label for="incidentDate" class="form-label">Incident Date</label>
+                    <input type="date" class="form-control" id="incidentDate" name="incident_date" required />
+                </div>
+                <div class="col-12 col-md-6">
+                    <label for="incidentHour" class="form-label">Incident Time</label>
+                    <input type="time" class="form-control" id="incidentHour" name="incident_hour" required />
+                </div>
+                <div class="col-12 col-md-6">
+                    <label for="incidentType" class="form-label">Type of Incident</label>
+                    <select id="incidentType" name="incident_type" class="form-select" required>
+                        <option value="">Select...</option>
+                        <option value="Collision">Collision</option>
+                        <option value="Theft">Theft</option>
+                        <option value="Fire">Fire</option>
+                        <option value="Vandalism">Vandalism</option>
+                        <option value="Windshield">Windshield</option>
+                    </select>
+                </div>
+                <div class="col-12 col-md-6">
+                    <label for="incidentSeverity" class="form-label">Description / Severity</label>
+                    <select id="incidentSeverity" name="incident_severity" class="form-select" required>
+                        <option value="">Select...</option>
+                        <option value="Minor Scratch">Minor Scratch</option>
+                        <option value="Major Damage">Major Damage</option>
+                        <option value="Total Loss">Total Loss</option>
+                    </select>
+                </div>
+                <div class="col-12">
+                    <label for="incidentDescription" class="form-label">Brief Description (optional)</label>
+                    <textarea id="incidentDescription" name="incident_description" class="form-control" rows="3" placeholder="Describe what happened..."></textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- Who -->
+        <div class="card-elevated p-3 mt-3">
+            <h5 class="mb-3">Who</h5>
+            <div class="row g-3">
+                <div class="col-12 col-md-6">
+                    <label for="insuredRelationship" class="form-label">Driver at Time of Accident</label>
+                    <select id="insuredRelationship" name="insured_relationship" class="form-select" required>
+                        <option value="">Select...</option>
+                        <option value="Policy Holder">Me (Policy Holder)</option>
+                        <option value="Spouse">Spouse</option>
+                        <option value="Child">Child</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="col-12 col-md-3">
+                    <label for="driverAge" class="form-label">Driver Age</label>
+                    <input type="number" class="form-control" id="driverAge" name="driver_age" min="16" max="100" required />
+                </div>
+                <div class="col-12 col-md-3">
+                    <label for="witnesses" class="form-label">Witnesses</label>
+                    <input type="number" class="form-control" id="witnesses" name="number_of_witnesses" min="0" max="10" value="0" />
+                </div>
+            </div>
+        </div>
+
+        <!-- Damage -->
+        <div class="card-elevated p-3 mt-3">
+            <h5 class="mb-3">Damage</h5>
+            <div class="row g-3">
+                <div class="col-12 col-md-4">
+                    <label for="vehiclesInvolved" class="form-label">Vehicles Involved</label>
+                    <input type="number" class="form-control" id="vehiclesInvolved" name="number_of_vehicles_involved" min="1" max="10" value="1" />
+                </div>
+                <div class="col-12 col-md-4 d-flex align-items-center">
+                    <div class="form-check mt-4">
+                        <input class="form-check-input" type="checkbox" id="policeReport" name="police_report" />
+                        <label class="form-check-label" for="policeReport">Police Report Filed?</label>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="text-muted small mb-2">Estimated Damage Areas</div>
+                    <div class="row g-3">
+                        <div class="col-12 col-md-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="1" id="damageVehicle" name="damage_vehicle">
+                                <label class="form-check-label" for="damageVehicle">My Vehicle</label>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="1" id="damageProperty" name="damage_property">
+                                <label class="form-check-label" for="damageProperty">Property</label>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="1" id="damageAnotherVehicle" name="damage_another_vehicle">
+                                <label class="form-check-label" for="damageAnotherVehicle">Another Vehicle</label>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="1" id="damageInjury" name="damage_injury">
+                                <label class="form-check-label" for="damageInjury">People (Injury)</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <label for="claimImage" class="form-label">Claim Image (optional)</label>
+                    <input type="file" class="form-control" id="claimImage" name="claim_image" accept="image/*" />
+                </div>
+            </div>
+        </div>
+
+        <div class="d-flex gap-2 mt-3">
+            <button type="submit" class="btn btn-gradient">Submit Claim</button>
+            <a asp-controller="Policy" asp-action="Policy" class="btn btn-soft">Cancel</a>
+        </div>
+    </form>
+
+    @section Scripts {
+        <partial name="_ValidationScriptsPartial" />
+    }
+</div>

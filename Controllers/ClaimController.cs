@@ -106,4 +106,9 @@ public class ClaimController : Controller
 
 		return View(model);
 	}
+
+	public async Task<IActionResult> Create()
+	{
+		return View();
+	}
 }

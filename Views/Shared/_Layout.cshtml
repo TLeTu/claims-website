@@ -27,6 +27,7 @@
                             <li class="nav-item"><a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Home" ? "active" : null)" asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
                             <li class="nav-item"><a class="nav-link @(ViewContext.RouteData.Values["action"]?.ToString() == "Policy" ? "active" : null)" asp-area="" asp-controller="Policy" asp-action="Policy">My Policies</a></li>
                             <li class="nav-item"><a class="nav-link @(ViewContext.RouteData.Values["action"]?.ToString() == "Claim" ? "active" : null)" asp-area="" asp-controller="Claim" asp-action="Claim">My Claims</a></li>
+                            <li class="nav-item"><a class="nav-link @(ViewContext.RouteData.Values["action"]?.ToString() == "Create" ? "active" : null)" asp-area="" asp-controller="Claim" asp-action="Create">File a Claim</a></li>
                             <li class="nav-item"><a class="nav-link @(ViewContext.RouteData.Values["action"]?.ToString() == "AccountDetails" ? "active" : null)" asp-area="" asp-controller="Account" asp-action="AccountDetails">Account Details</a></li>
                             <li class="nav-item"><a class="btn btn-sm btn-outline-danger px-3" asp-area="" asp-controller="Account" asp-action="Logout">Logout</a></li>
                             
