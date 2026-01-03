@@ -9,7 +9,7 @@ public class User
     // 2. Map C# "UserId" to SQL "user_id"
     [Key]
     [Column("user_id")]
-    public required int Id { get; set; } // Or public int UserId { get; set; }
+    public int Id { get; set; } // Or public int UserId { get; set; }
 
     [Column("customer_id")]
     public int? CustomerId { get; set; } // Nullable int

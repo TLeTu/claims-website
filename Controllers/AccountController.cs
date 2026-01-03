@@ -79,15 +79,10 @@ public class AccountController : Controller
         // 4. Map to ViewModel
         var model = new AccountDetailsViewModel
         {
-            UserId = user.Id,
             Email = user.Email ?? string.Empty,
             Phone = user.Phone ?? string.Empty,
             CreatedAt = user.CreatedAt,
 
-            // --- Safe Mapping with Null Coalescing ---
-
-            // If customer is null, ID is 0
-            CustomerId = customer?.Id ?? 0,
 
             // If customer is null, DateOfBirth is null
             DateOfBirth = customer?.DateOfBirth,
