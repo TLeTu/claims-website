@@ -22,27 +22,27 @@
                     </div>
                     <div class="col-12 col-md-4">
                         <div class="text-muted small">Filed On</div>
-                        <div class="fw-semibold">@Model.ClaimDate.ToShortDateString()</div>
+                        <div class="fw-semibold">@Model.ClaimDate?.ToShortDateString() ?? "N/A"</div>
                     </div>
                 </div>
                 <hr class="my-3" />
                 <div class="row g-3">
                     <div class="col-12 col-md-4">
                         <div class="text-muted small">Vehicle Repairs</div>
-                        <div class="fw-semibold">@Model.VehicleCost.ToString("C0")</div>
+                        <div class="fw-semibold">@Model.VehicleCost?.ToString("C0") ?? "N/A"</div>
                     </div>
                     <div class="col-12 col-md-4">
                         <div class="text-muted small">Bodily Injury</div>
-                        <div class="fw-semibold">@Model.InjuryCost.ToString("C0")</div>
+                        <div class="fw-semibold">@Model.InjuryCost?.ToString("C0") ?? "N/A"</div>
                     </div>
                     <div class="col-12 col-md-4">
                         <div class="text-muted small">Property Damage</div>
-                        <div class="fw-semibold">@Model.PropertyCost.ToString("C0")</div>
+                        <div class="fw-semibold">@Model.PropertyCost?.ToString("C0") ?? "N/A"</div>
                     </div>
                 </div>
                 <div class="d-flex justify-content-between align-items-center mt-3 p-3 rounded" style="background:#f8fafc;border:1px solid #e2e8f0;">
                     <div class="fw-semibold">Total Payout</div>
-                    <div class="fs-5 fw-bold">@Model.TotalAmount.ToString("C0")</div>
+                    <div class="fs-5 fw-bold">@Model.TotalAmount?.ToString("C0") ?? "N/A"</div>
                 </div>
             </div>
 
@@ -51,7 +51,7 @@
                 <div class="row g-3">
                     <div class="col-12 col-md-6">
                         <div class="text-muted small">Incident Date & Time</div>
-                        <div class="fw-semibold">@Model.IncidentDate.ToShortDateString() at @Model.IncidentHour:00</div>
+                        <div class="fw-semibold">@Model.IncidentDate?.ToShortDateString() ?? "N/A" at @(Model.IncidentHour?.ToString() ?? "N/A"):00</div>
                     </div>
                     <div class="col-12 col-md-6">
                         <div class="text-muted small">Collision</div>

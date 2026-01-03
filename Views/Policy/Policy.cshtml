@@ -24,22 +24,25 @@
                     </tr>
                 </thead>
                 <tbody>
-                @foreach (var policy in Model)
-                {
+                    @foreach (var policy in Model)
+                    {
 
-                    <tr>
-                        <td class="fw-medium">@policy.VehicleDescription</td>
-                        <td>
-                            <span class="badge-soft @(policy.StatusText?.ToLower().Contains("active") == true ? "badge-green" : "badge-amber")">@policy.StatusText</span>
-                        </td>
-                        <td>@policy.Product</td>
-                        <td>@(policy.StartDate.HasValue ? policy.StartDate.Value.ToShortDateString() : "N/A") - @(policy.EndDate.HasValue ? policy.EndDate.Value.ToShortDateString() : "N/A")</td>
-                        <td class="text-end">@policy.SumInsured.ToString("C0")</td>
-                        <td class="text-end">
-                            <a class="btn btn-sm btn-gradient" asp-controller="Policy" asp-action="PolicyDetails" asp-route-id="@policy.PolicyNo">View</a>
-                        </td>
-                    </tr>
-                }
+                        <tr>
+                            <td class="fw-medium">@policy.VehicleDescription</td>
+                            <td>
+                                <span
+                                    class="badge-soft @(policy.StatusText?.ToLower().Contains("active") == true ? "badge-green" : "badge-amber")">@policy.StatusText</span>
+                            </td>
+                            <td>@policy.Product</td>
+                            <td>@(policy.StartDate?.ToShortDateString() ?? "N/A") -
+                                @(policy.EndDate?.ToShortDateString() ?? "N/A")</td>
+                            <td class="text-end">@(policy.SumInsured?.ToString("C0") ?? "N/A")</td>
+                            <td class="text-end">
+                                <a class="btn btn-sm btn-gradient" asp-controller="Policy" asp-action="PolicyDetails"
+                                    asp-route-id="@policy.PolicyNo">View</a>
+                            </td>
+                        </tr>
+                    }
                 </tbody>
             </table>
         </div>

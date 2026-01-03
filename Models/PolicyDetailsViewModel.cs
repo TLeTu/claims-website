@@ -5,22 +5,22 @@ namespace claims_website.Models;
 public class PolicyDetailsViewModel
 {
     // --- Identifiers ---
-    public string PolicyNo { get; set; } = string.Empty;
+    public required string PolicyNo { get; set; }
 
     // --- The Car (The "Hero" of the card) ---
     [Display(Name = "Vehicle")]
-    public string VehicleDescription { get; set; } = string.Empty; // e.g. "2018 Toyota Corolla"
-    public string ChassisNo { get; set; } = string.Empty;
+    public string? VehicleDescription { get; set; } // e.g. "2018 Toyota Corolla"
+    public string? ChassisNo { get; set; }
 
     // --- Coverage Info ---
     [Display(Name = "Plan Type")]
-    public string Product { get; set; } = string.Empty; // e.g. "Standard Comprehensive"
+    public string? Product { get; set; } // e.g. "Standard Comprehensive"
 
     [DataType(DataType.Currency)]
-    public decimal SumInsured { get; set; }
+    public decimal? SumInsured { get; set; }
 
     [DataType(DataType.Currency)]
-    public decimal Premium { get; set; }
+    public decimal? Premium { get; set; }
 
     // --- Dates & Status ---
     [DataType(DataType.Date)]
@@ -30,11 +30,11 @@ public class PolicyDetailsViewModel
     public DateTime? EndDate { get; set; }
 
     // Helper to determine if policy is active
-    public bool IsActive => DateTime.Now >= StartDate && DateTime.Now <= EndDate;
+    public bool IsActive => StartDate.HasValue && EndDate.HasValue && DateTime.Now >= StartDate.Value && DateTime.Now <= EndDate.Value;
 
     // Helper for CSS badge class
     public string StatusBadgeClass => IsActive ? "bg-success" : "bg-secondary";
-    public string StatusText => IsActive ? "Active" : "Expired";
+    public string StatusText => IsActive ? "Active" : (StartDate.HasValue && EndDate.HasValue ? "Expired" : "Incomplete");
 
     // --- Detailed Financials ---
     [Display(Name = "Deductible (Excess)")]

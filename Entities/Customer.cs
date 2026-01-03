@@ -8,7 +8,7 @@ public class Customer
 {
     [Key]
     [Column("customer_id")]
-    public int Id { get; set; }
+    public required int Id { get; set; }
 
     [Column("date_of_birth")]
     public DateTime? DateOfBirth { get; set; } // Nullable because DB allows NULL

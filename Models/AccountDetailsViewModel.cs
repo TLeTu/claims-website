@@ -5,18 +5,14 @@ namespace claims_website.Models;
 public class AccountDetailsViewModel
 {
     // --- User Info (Read Only mostly) ---
-    public int UserId { get; set; }
+    public required string Email { get; set; }
     
-    public string Email { get; set; } = string.Empty;
-    
-    public string Phone { get; set; } = string.Empty;
+    public required string Phone { get; set; }
     
     [Display(Name = "Account Created")]
     public DateTime CreatedAt { get; set; }
 
     // --- Customer Info (Editable) ---
-    public int CustomerId { get; set; } // Defaults to 0 if no customer linked
-
     [DataType(DataType.Date)]
     [Display(Name = "Date of Birth")]
     public DateTime? DateOfBirth { get; set; } // Must be nullable (?)

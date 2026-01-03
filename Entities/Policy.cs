@@ -1,21 +1,3 @@
-// CREATE TABLE IF NOT EXISTS demo.policy (
-//     policy_no           VARCHAR(50)    NOT NULL PRIMARY KEY,
-//     cust_id             VARCHAR(50)    NOT NULL,        
-//     policytype          VARCHAR(50),
-//     pol_issue_date      DATE,
-//     pol_eff_date        DATE,
-//     pol_expiry_date     DATE,
-//     make                VARCHAR(50), 
-//     model               VARCHAR(50), 
-//     model_year          INT, 
-//     chassis_no          VARCHAR(50), 
-//     use_of_vehicle      VARCHAR(100),
-//     product             VARCHAR(100), 
-//     sum_insured         NUMERIC(15, 2), -- Use NUMERIC for currency
-//     premium             NUMERIC(15, 2), -- Use NUMERIC for currency
-//     deductable          INT 
-// );
-
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 

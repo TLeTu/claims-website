@@ -1,25 +1,3 @@
-// CREATE TABLE IF NOT EXISTS demo.claim (
-//     claim_no                        VARCHAR(50)    NOT NULL PRIMARY KEY,
-//     policy_no                       VARCHAR(50)    NOT NULL,   
-//     claim_date                      DATE,           -- Use DATE type
-//     months_as_customer              INT,
-//     injury                          BIGINT,
-//     property                        BIGINT,
-//     vehicle                         BIGINT,
-//     total                           BIGINT,
-//     collision_type                  VARCHAR(50),
-//     number_of_vehicles_involved     INT, 
-//     driver_age                      INT,            -- Age is typically an integer
-//     insured_relationship            VARCHAR(50),
-//     license_issue_date              DATE,           -- Use DATE type
-//     incident_date                   DATE,           -- Use DATE type
-//     incident_hour                   INT,
-//     incident_type                   VARCHAR(50),
-//     incident_severity               VARCHAR(50),
-//     number_of_witnesses             INT, 
-//     suspicious_activity             BOOLEAN         -- Use BOOLEAN for true/false
-// );
-
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 

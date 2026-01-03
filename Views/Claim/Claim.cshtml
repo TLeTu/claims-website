@@ -26,12 +26,12 @@
                 @foreach (var claim in Model.OrderByDescending(c => c.IncidentDate))
                 {
                     <tr>
-                        <td>@claim.IncidentDate.ToShortDateString()</td>
+                        <td>@(claim.IncidentDate?.ToShortDateString() ?? "N/A")</td>
                         <td>@claim.IncidentType</td>
                         <td>
                             <span class="badge-soft @(claim.Status?.ToLower().Contains("paid") == true ? "badge-green" : claim.Status?.ToLower().Contains("pending") == true ? "badge-amber" : "badge-red")">@claim.Status</span>
                         </td>
-                        <td class="text-end">@claim.TotalAmount.ToString("C0")</td>
+                        <td class="text-end">@claim.TotalAmount?.ToString("C0") ?? "N/A"</td>
                         <td class="text-end">
                             <a class="btn btn-sm btn-gradient" asp-controller="Claim" asp-action="ClaimDetails" asp-route-id="@claim.ClaimNo">View</a>
                         </td>
