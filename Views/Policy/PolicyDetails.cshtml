@@ -82,7 +82,7 @@
                 <a href="@Model.PolicyDocumentUrl" class="btn btn-gradient" target="_blank">Download Certificate</a>
                 @if(Model.IsActive)
                 {
-                    <a href="/Claims/Create?policyId=@Model.PolicyNo" class="btn btn-gradient">Report an Accident</a>
+                    <a asp-controller="Claim" asp-action="Create" asp-route-policyNo="@Model.PolicyNo" class="btn btn-gradient">File a Claim</a>
                 }
                 else
                 {

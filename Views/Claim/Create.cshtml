@@ -1,143 +1,168 @@
+@model claims_website.Models.ClaimCreateViewModel
 @{
     ViewData["Title"] = "File a Claim";
 }
 
-<div class="minimal-container accent-card">
-    <h2 class="page-title title-gradient">File a Claim</h2>
-    <p class="text-muted">Provide the details below to start your claim. You can always upload more documents later.</p>
+<div class="minimal-container accent-card" style="max-width: 800px; margin: 0 auto;">
+    <h2 class="page-title title-gradient mb-2">File a Claim</h2>
+    <p class="text-muted mb-4">Provide the details below to start your claim. You can always upload more documents later.</p>
 
     <form class="stack" method="post" enctype="multipart/form-data">
-        <!-- Policy Info -->
-        <div class="card-elevated p-3">
-            <h5 class="mb-3">Policy Information</h5>
-            <div class="row g-3">
-                <div class="col-12 col-md-6">
-                    <label for="policyNumber" class="form-label">Policy Number</label>
-                    <input type="text" class="form-control" id="policyNumber" name="policy_number" required />
-                </div>
-            </div>
-        </div>
-        <!-- What & When -->
-        <div class="card-elevated p-3">
-            <h5 class="mb-3">What & When</h5>
-            <div class="row g-3">
-                <div class="col-12 col-md-6">
-                    <label for="incidentDate" class="form-label">Incident Date</label>
-                    <input type="date" class="form-control" id="incidentDate" name="incident_date" required />
-                </div>
-                <div class="col-12 col-md-6">
-                    <label for="incidentHour" class="form-label">Incident Time</label>
-                    <input type="time" class="form-control" id="incidentHour" name="incident_hour" required />
-                </div>
-                <div class="col-12 col-md-6">
-                    <label for="incidentType" class="form-label">Type of Incident</label>
-                    <select id="incidentType" name="incident_type" class="form-select" required>
-                        <option value="">Select...</option>
-                        <option value="Collision">Collision</option>
-                        <option value="Theft">Theft</option>
-                        <option value="Fire">Fire</option>
-                        <option value="Vandalism">Vandalism</option>
-                        <option value="Windshield">Windshield</option>
-                    </select>
-                </div>
-                <div class="col-12 col-md-6">
-                    <label for="incidentSeverity" class="form-label">Description / Severity</label>
-                    <select id="incidentSeverity" name="incident_severity" class="form-select" required>
-                        <option value="">Select...</option>
-                        <option value="Minor Scratch">Minor Scratch</option>
-                        <option value="Major Damage">Major Damage</option>
-                        <option value="Total Loss">Total Loss</option>
-                    </select>
-                </div>
-                <div class="col-12">
-                    <label for="incidentDescription" class="form-label">Brief Description (optional)</label>
-                    <textarea id="incidentDescription" name="incident_description" class="form-control" rows="3" placeholder="Describe what happened..."></textarea>
-                </div>
-            </div>
-        </div>
-
-        <!-- Who -->
-        <div class="card-elevated p-3 mt-3">
-            <h5 class="mb-3">Who</h5>
-            <div class="row g-3">
-                <div class="col-12 col-md-6">
-                    <label for="insuredRelationship" class="form-label">Driver at Time of Accident</label>
-                    <select id="insuredRelationship" name="insured_relationship" class="form-select" required>
-                        <option value="">Select...</option>
-                        <option value="Policy Holder">Me (Policy Holder)</option>
-                        <option value="Spouse">Spouse</option>
-                        <option value="Child">Child</option>
-                        <option value="Other">Other</option>
-                    </select>
-                </div>
-                <div class="col-12 col-md-3">
-                    <label for="driverAge" class="form-label">Driver Age</label>
-                    <input type="number" class="form-control" id="driverAge" name="driver_age" min="16" max="100" required />
-                </div>
-                <div class="col-12 col-md-3">
-                    <label for="witnesses" class="form-label">Witnesses</label>
-                    <input type="number" class="form-control" id="witnesses" name="number_of_witnesses" min="0" max="10" value="0" />
-                </div>
-            </div>
-        </div>
-
-        <!-- Damage -->
-        <div class="card-elevated p-3 mt-3">
-            <h5 class="mb-3">Damage</h5>
-            <div class="row g-3">
-                <div class="col-12 col-md-4">
-                    <label for="vehiclesInvolved" class="form-label">Vehicles Involved</label>
-                    <input type="number" class="form-control" id="vehiclesInvolved" name="number_of_vehicles_involved" min="1" max="10" value="1" />
-                </div>
-                <div class="col-12 col-md-4 d-flex align-items-center">
-                    <div class="form-check mt-4">
-                        <input class="form-check-input" type="checkbox" id="policeReport" name="police_report" />
-                        <label class="form-check-label" for="policeReport">Police Report Filed?</label>
+        
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-light fw-bold">1. Vehicle Information</div>
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-12">
+                        <label asp-for="PolicyNo" class="form-label fw-bold">Select Vehicle</label>
+                        @if (Model.ActivePolicies != null && Model.ActivePolicies.Any(x => x.Selected))
+                        {
+                            var selectedCar = Model.ActivePolicies.First(x => x.Selected).Text;
+                            <div class="alert alert-primary d-flex align-items-center mb-0">
+                                <i class="bi bi-car-front-fill fs-4 me-3"></i>
+                                <div>
+                                    <strong>@selectedCar</strong>
+                                    <input type="hidden" asp-for="PolicyNo" />
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <select asp-for="PolicyNo" asp-items="Model.ActivePolicies" class="form-select form-select-lg" required>
+                                <option value="">-- Select the vehicle involved --</option>
+                            </select>
+                            <span asp-validation-for="PolicyNo" class="text-danger"></span>
+                        }
                     </div>
                 </div>
-                <div class="col-12">
-                    <div class="text-muted small mb-2">Estimated Damage Areas</div>
-                    <div class="row g-3">
-                        <div class="col-12 col-md-3">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="1" id="damageVehicle" name="damage_vehicle">
-                                <label class="form-check-label" for="damageVehicle">My Vehicle</label>
-                            </div>
-                        </div>
-                        <div class="col-12 col-md-3">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="1" id="damageProperty" name="damage_property">
-                                <label class="form-check-label" for="damageProperty">Property</label>
-                            </div>
-                        </div>
-                        <div class="col-12 col-md-3">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="1" id="damageAnotherVehicle" name="damage_another_vehicle">
-                                <label class="form-check-label" for="damageAnotherVehicle">Another Vehicle</label>
-                            </div>
-                        </div>
-                        <div class="col-12 col-md-3">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="1" id="damageInjury" name="damage_injury">
-                                <label class="form-check-label" for="damageInjury">People (Injury)</label>
-                            </div>
-                        </div>
+            </div>
+        </div>
+
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-light fw-bold">2. What Happened?</div>
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label asp-for="IncidentDate" class="form-label">Incident Date</label>
+                        <input asp-for="IncidentDate" type="date" class="form-control" required />
+                        <span asp-validation-for="IncidentDate" class="text-danger"></span>
                     </div>
-                </div>
-                <div class="col-12">
-                    <label for="claimImage" class="form-label">Claim Image (optional)</label>
-                    <input type="file" class="form-control" id="claimImage" name="claim_image" accept="image/*" />
+                    <div class="col-md-6">
+                        <label class="form-label">Incident Time</label>
+                        <input type="time" name="incident_time_str" class="form-control" required />
+                        <div class="form-text">Approximate time is fine.</div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="IncidentType" class="form-label">Type of Incident</label>
+                        <select asp-for="IncidentType" class="form-select" id="incidentTypeSelect" onchange="toggleCollisionType()" required>
+                            <option value="">Select...</option>
+                            <option value="Multi-vehicle Collision">Multi-vehicle Collision</option>
+                            <option value="Single Vehicle Collision">Single Vehicle Collision</option>
+                            <option value="Vehicle Theft">Vehicle Theft</option>
+                            <option value="Parked Car">Parked Car</option>
+                        </select>
+                        <span asp-validation-for="IncidentType" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="IncidentSeverity" class="form-label">Severity</label>
+                        <select asp-for="IncidentSeverity" class="form-select" required>
+                            <option value="">Select...</option>
+                            <option value="Trivial Damage">Trivial Damage (Scuff/Dent)</option>
+                            <option value="Minor Damage">Minor Damage (Cosmetic)</option>
+                            <option value="Major Damage">Major Damage (Mechanical/Structural)</option>
+                            <option value="Total Loss">Total Loss (Undrivable)</option>
+                        </select>
+                    </div>
+
+                    <div class="col-12" id="collisionTypeContainer" style="display:none;">
+                        <label asp-for="CollisionType" class="form-label">Collision Detail</label>
+                        <select asp-for="CollisionType" class="form-select bg-light">
+                            <option value="">Select collision type...</option>
+                            <option value="Front Collision">Front Collision</option>
+                            <option value="Rear Collision">Rear Collision</option>
+                            <option value="Side Collision">Side Collision</option>
+                        </select>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="d-flex gap-2 mt-3">
-            <button type="submit" class="btn btn-gradient">Submit Claim</button>
-            <a asp-controller="Policy" asp-action="Policy" class="btn btn-soft">Cancel</a>
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-light fw-bold">3. Driver & Scene</div>
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label asp-for="InsuredRelationship" class="form-label">Driver</label>
+                        <select asp-for="InsuredRelationship" class="form-select" required>
+                            <option value="">Who was driving?</option>
+                            <option value="Policy Holder">Me (Policy Holder)</option>
+                            <option value="husband">Spouse (Husband)</option>
+                            <option value="wife">Spouse (Wife)</option>
+                            <option value="own-child">Child</option>
+                            <option value="unmarried">Partner / Significant Other</option>
+                            <option value="other-relative">Other Relative</option>
+                            <option value="not-in-family">Friend / Other</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label asp-for="DriverAge" class="form-label">Driver Age</label>
+                        <input asp-for="DriverAge" type="number" class="form-control" min="16" max="99" required />
+                    </div>
+                    <div class="col-md-3">
+                        <label asp-for="Witnesses" class="form-label">Witnesses</label>
+                        <input asp-for="Witnesses" type="number" class="form-control" min="0" value="0" />
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="LicenseInputDate" class="form-label">License Input Date</label>
+                        <input asp-for="LicenseInputDate" type="date" class="form-control" />
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="VehiclesInvolved" class="form-label">Vehicles Involved</label>
+                        <input asp-for="VehiclesInvolved" type="number" class="form-control" min="1" value="1" />
+                    </div>
+                </div>
+            </div>
         </div>
+
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-light fw-bold">4. Photos & Evidence</div>
+            <div class="card-body">
+                <div class="text-center p-4 border border-2 border-dashed rounded bg-light">
+                    <i class="bi bi-camera display-4 text-secondary"></i>
+                    <h6 class="mt-2">Upload Accident Photos</h6>
+                    <p class="small text-muted mb-3">Please upload clear photos of the damage from different angles.</p>
+                    
+                    <input type="file" name="claimPhotos" class="form-control w-75 mx-auto" multiple accept="image/*,application/pdf" />
+                    <div class="form-text mt-2">Accepted: JPG, PNG, PDF. Max 5 files.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="d-flex gap-2 mt-4 mb-5">
+            <button type="submit" class="btn btn-primary btn-lg px-5">Submit Claim</button>
+        </div>
+
     </form>
-
-    @section Scripts {
-        <partial name="_ValidationScriptsPartial" />
-    }
 </div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        function toggleCollisionType() {
+            var type = document.getElementById("incidentTypeSelect").value;
+            var container = document.getElementById("collisionTypeContainer");
+            var select = container.querySelector("select");
+            if (type && type.includes("Collision")) {
+                container.style.display = "block";
+                select.setAttribute("required", "required");
+            } else {
+                container.style.display = "none";
+                select.removeAttribute("required");
+                select.value = ""; 
+            }
+        }
+    </script>
+}

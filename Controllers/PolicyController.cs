@@ -53,7 +53,10 @@ public class PolicyController : Controller
 			Premium = p.Premium ?? 0,
 			StartDate = p.PolEffDate,
 			EndDate = p.PolExpiryDate,
-		}).ToList();
+		})
+		.OrderByDescending(vm => vm.IsActive)
+		.ThenBy(vm => vm.StartDate)
+		.ToList();
 
 		return View(policyViewModels);
 	}
@@ -102,7 +105,7 @@ public class PolicyController : Controller
 			IssueDate = policy.PolIssueDate,
 			ClaimsHistory = claims.Select(c => new ClaimSummaryViewModel
 			{
-				ClaimNo = c.ClaimNo,
+				ClaimNo = c.ClaimNo ?? 	string.Empty,
 				IncidentDate = c.IncidentDate,
 				Type = c.CollisionType,
 				Severity = c.IncidentSeverity,
