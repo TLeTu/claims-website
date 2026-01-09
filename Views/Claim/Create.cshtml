@@ -49,7 +49,7 @@
                     </div>
                     <div class="col-md-6">
                         <label class="form-label">Incident Time</label>
-                        <input type="time" name="incident_time_str" class="form-control" required />
+                        <input asp-for="IncidentTimeStr" type="time" class="form-control" required />
                         <div class="form-text">Approximate time is fine.</div>
                     </div>
 
@@ -135,7 +135,7 @@
                     <h6 class="mt-2">Upload Accident Photos</h6>
                     <p class="small text-muted mb-3">Please upload clear photos of the damage from different angles.</p>
                     
-                    <input type="file" name="claimPhotos" class="form-control w-75 mx-auto" multiple accept="image/*,application/pdf" />
+                    <input asp-for="ClaimPhotos" class="form-control w-75 mx-auto" multiple accept="image/*,application/pdf" />
                     <div class="form-text mt-2">Accepted: JPG, PNG, PDF. Max 5 files.</div>
                 </div>
             </div>

@@ -103,3 +103,6 @@
 /mnt/HDD/Projects/claims-website/obj/Debug/net9.0/compressed/frv8lux88p-{0}-yklp7tjked-yklp7tjked.gz
 /mnt/HDD/Projects/claims-website/obj/Debug/net9.0/compressed/gtublum0hl-{0}-w8brv6gjkx-w8brv6gjkx.gz
 /mnt/HDD/Projects/claims-website/obj/Debug/net9.0/compressed/8rfr9yyrxz-{0}-w8brv6gjkx-w8brv6gjkx.gz
+/mnt/HDD/Projects/claims-website/bin/Debug/net9.0/AWSSDK.Core.dll
+/mnt/HDD/Projects/claims-website/bin/Debug/net9.0/AWSSDK.Extensions.NETCore.Setup.dll
+/mnt/HDD/Projects/claims-website/bin/Debug/net9.0/AWSSDK.S3.dll

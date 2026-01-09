@@ -5,6 +5,7 @@ namespace claims_website.Models;
 using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Http;
 
 public class ClaimCreateViewModel
 {
@@ -18,6 +19,10 @@ public class ClaimCreateViewModel
 	[DataType(DataType.Date)]
 	[Display(Name = "Incident Date")]
 	public DateTime? IncidentDate { get; set; }
+
+	[Required]
+	[Display(Name = "Time of Incident")]
+    public string IncidentTimeStr { get; set; } = "12:00";
 
 	[Required]
 	[Display(Name = "Type of Incident")]
@@ -48,4 +53,7 @@ public class ClaimCreateViewModel
 	[Display(Name = "Vehicles Involved")]
 	[Range(1, 99)]
 	public int? VehiclesInvolved { get; set; }
+
+	[Display(Name = "Upload Photos")]
+    public List<IFormFile> ClaimPhotos { get; set; } = new List<IFormFile>();
 }

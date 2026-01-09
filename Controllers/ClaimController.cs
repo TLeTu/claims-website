@@ -4,6 +4,9 @@ using claims_website.Repositories;
 using claims_website.Models;
 using System.Security.Claims;
 using claims_website.Entities;
+using Amazon.S3;
+using Amazon.S3.Model;
+using System.Text;
 
 namespace claims_website.Controllers;
 
@@ -13,17 +16,20 @@ public class ClaimController : Controller
 	private readonly IUserRepository _userRepo;
 	private readonly IPolicyRepository _policyRepo;
 	private readonly IClaimRepository _claimRepo;
+	private readonly IAmazonS3 _s3Client;
 
 	public ClaimController(
 		ILogger<ClaimController> logger,
 		IUserRepository userRepo,
 		IPolicyRepository policyRepo,
-		IClaimRepository claimRepo)
+		IClaimRepository claimRepo,
+		IAmazonS3 s3Client)
 	{
 		_logger = logger;
 		_userRepo = userRepo;
 		_policyRepo = policyRepo;
 		_claimRepo = claimRepo;
+		_s3Client = s3Client;
 	}
 
 	[Authorize]
@@ -138,6 +144,7 @@ public class ClaimController : Controller
 
 	[Authorize]
 	[HttpPost]
+	[ValidateAntiForgeryToken]
 	public async Task<IActionResult> Create(ClaimCreateViewModel model)
 	{
 		var userIdClaim = User.Claims.FirstOrDefault(c => c.Type == "UserId");
@@ -152,8 +159,8 @@ public class ClaimController : Controller
 		}
 		if (!ModelState.IsValid)
 		{
-			var policies = await _policyRepo.GetByCustomerIdAsync(user.CustomerId.Value.ToString());
-			model.ActivePolicies = policies.Select(p => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem
+			var customerPolicies = await _policyRepo.GetByCustomerIdAsync(user.CustomerId.Value.ToString());
+			model.ActivePolicies = customerPolicies.Select(p => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem
 			{
 				Value = p.PolicyNo,
 				Text = $"{p.PolicyNo} - {p.Make} {p.Model} ({p.ModelYear})",
@@ -161,6 +168,26 @@ public class ClaimController : Controller
 			}).ToList();
 			return View(model);
 		}
+		int incidentHour = 0;
+		if (DateTime.TryParse(model.IncidentTimeStr, out DateTime parsedTime))
+		{
+			incidentHour = parsedTime.Hour;
+		}
+		// 1. Find the specific policy
+		var policies = await _policyRepo.GetByCustomerIdAsync(user.CustomerId.Value.ToString());
+		var selectedPolicy = policies.FirstOrDefault(p => p.PolicyNo == model.PolicyNo);
+
+		// 2. Calculate Months
+		int monthsLoyal = 0;
+		if (selectedPolicy != null && selectedPolicy.PolEffDate.HasValue) // Assuming 'PolEffDate' exists on Policy entity
+		{
+			var start = selectedPolicy.PolEffDate.Value;
+			var now = DateTime.Now;
+			// Simple math: ((Year Diff) * 12) + Month Diff
+			monthsLoyal = ((now.Year - start.Year) * 12) + now.Month - start.Month;
+			if (monthsLoyal < 0) monthsLoyal = 0;
+		}
+
 		// Auto generate a new claim number
 		var generatedClaimNo = Guid.NewGuid().ToString();
 		var newClaim = new InsuranceClaim
@@ -169,6 +196,7 @@ public class ClaimController : Controller
 			PolicyNo = model.PolicyNo!,
 			IncidentDate = model.IncidentDate.HasValue ? DateTime.SpecifyKind(model.IncidentDate.Value, DateTimeKind.Utc) : null,
 			IncidentType = model.IncidentType,
+			IncidentHour = incidentHour,
 			IncidentSeverity = model.IncidentSeverity,
 			CollisionType = model.CollisionType,
 			InsuredRelationship = model.InsuredRelationship,
@@ -176,10 +204,82 @@ public class ClaimController : Controller
 			NumberOfWitnesses = model.Witnesses,
 			LicenseIssueDate = model.LicenseInputDate.HasValue ? DateTime.SpecifyKind(model.LicenseInputDate.Value, DateTimeKind.Utc) : null,
 			NumberOfVehiclesInvolved = model.VehiclesInvolved,
+			MonthsAsCustomer = monthsLoyal,
+			Injury = 0,
+			Property = 0,
+			Vehicle = 0,
+			Total = 0,
+			SuspiciousActivity = false,
 			// Set ClaimDate to now (when claim is created)
 			ClaimDate = DateTime.UtcNow
 		};
 		await _claimRepo.AddAsync(newClaim);
+
+		if (model.ClaimPhotos != null && model.ClaimPhotos.Count > 0)
+		{
+			try
+			{
+				// A. Get Chassis Number
+				var userPolicies = await _policyRepo.GetByCustomerIdAsync(user.CustomerId.Value.ToString());
+				var policy = userPolicies.FirstOrDefault(p => p.PolicyNo == model.PolicyNo);
+				string chassisNo = policy?.ChassisNo ?? "UNKNOWN";
+				string bucketName = "car-smart-claims";
+
+				// B. Prepare the CSV Builder (Header Row)
+				var csvBuilder = new StringBuilder();
+				csvBuilder.AppendLine("image_name,image_id,claim_no,chassis_no");
+
+				// C. Loop through images
+				foreach (var file in model.ClaimPhotos)
+				{
+					if (file.Length > 0)
+					{
+						var imageId = Guid.NewGuid().ToString();
+						var safeFileName = Path.GetFileName(file.FileName);
+
+						// --- UPLOAD 1: The Image ---
+						var imageKey = $"landing/customer/claims/images/{generatedClaimNo}_{imageId}_{safeFileName}";
+						using (var stream = file.OpenReadStream())
+						{
+							var putRequest = new PutObjectRequest
+							{
+								BucketName = bucketName,
+								Key = imageKey,
+								InputStream = stream,
+								ContentType = file.ContentType
+							};
+							await _s3Client.PutObjectAsync(putRequest);
+						}
+
+						// --- COLLECT DATA (Don't upload CSV yet) ---
+						// Append the row to our builder
+						csvBuilder.AppendLine($"{safeFileName},{imageId},{generatedClaimNo},{chassisNo}");
+					}
+				}
+
+				// --- UPLOAD 2: The MASTER Metadata CSV (Once) ---
+				// Name it using the Claim ID so it's easy to find
+				var metadataKey = $"landing/customer/claims/metadata/{generatedClaimNo}_metadata.csv";
+				var metadataBytes = Encoding.UTF8.GetBytes(csvBuilder.ToString());
+
+				using (var metaStream = new MemoryStream(metadataBytes))
+				{
+					var putMetaRequest = new PutObjectRequest
+					{
+						BucketName = bucketName,
+						Key = metadataKey,
+						InputStream = metaStream,
+						ContentType = "text/csv"
+					};
+					await _s3Client.PutObjectAsync(putMetaRequest);
+				}
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex, "Error uploading photos/metadata to S3.");
+			}
+		}
+
 		return RedirectToAction("Claim");
 	}
 }

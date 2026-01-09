@@ -8,10 +8,42 @@
     ".NETCoreApp,Version=v9.0": {
       "claims-website/1.0.0": {
         "dependencies": {
+          "AWSSDK.Extensions.NETCore.Setup": "4.0.3.19",
+          "AWSSDK.S3": "4.0.16.4",
           "Npgsql.EntityFrameworkCore.PostgreSQL": "9.0.1"
         },
         "runtime": {
           "claims-website.dll": {}
+        }
+      },
+      "AWSSDK.Core/4.0.3.8": {
+        "runtime": {
+          "lib/net8.0/AWSSDK.Core.dll": {
+            "assemblyVersion": "4.0.0.0",
+            "fileVersion": "4.0.3.8"
+          }
+        }
+      },
+      "AWSSDK.Extensions.NETCore.Setup/4.0.3.19": {
+        "dependencies": {
+          "AWSSDK.Core": "4.0.3.8"
+        },
+        "runtime": {
+          "lib/net8.0/AWSSDK.Extensions.NETCore.Setup.dll": {
+            "assemblyVersion": "4.0.0.0",
+            "fileVersion": "4.0.3.19"
+          }
+        }
+      },
+      "AWSSDK.S3/4.0.16.4": {
+        "dependencies": {
+          "AWSSDK.Core": "4.0.3.8"
+        },
+        "runtime": {
+          "lib/net8.0/AWSSDK.S3.dll": {
+            "assemblyVersion": "4.0.0.0",
+            "fileVersion": "4.0.16.4"
+          }
         }
       },
       "Microsoft.EntityFrameworkCore/9.0.0": {
@@ -72,6 +104,27 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "AWSSDK.Core/4.0.3.8": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-nJyNzaz3pcD8c8hZvtJXuziJm1dkd3/BYmZvhf1TPNfMo3G3lsesGFZl1UVyQhGEfmQOS+efT0H8tf00PMmjug==",
+      "path": "awssdk.core/4.0.3.8",
+      "hashPath": "awssdk.core.4.0.3.8.nupkg.sha512"
+    },
+    "AWSSDK.Extensions.NETCore.Setup/4.0.3.19": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-OfK0hQVkysQNLG1aP6NlL8mhdtU8jwrpUDbdkWa9O7mjns/sBx5Fgmeb0Tbpos8KBD9baMxJAc/0Z0IjEaeanQ==",
+      "path": "awssdk.extensions.netcore.setup/4.0.3.19",
+      "hashPath": "awssdk.extensions.netcore.setup.4.0.3.19.nupkg.sha512"
+    },
+    "AWSSDK.S3/4.0.16.4": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-por8eZJdPAu3hptAwyhuzji1NlHzuNhnp6TBjuj8egpjCpfLZdLBIlH0L+vKqfAJqFsxqtRDynzwGcgdbZPTOg==",
+      "path": "awssdk.s3/4.0.16.4",
+      "hashPath": "awssdk.s3.4.0.16.4.nupkg.sha512"
     },
     "Microsoft.EntityFrameworkCore/9.0.0": {
       "type": "package",

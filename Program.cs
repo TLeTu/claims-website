@@ -4,6 +4,8 @@ using claims_website.Data;
 using claims_website.Repositories;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Npgsql.EntityFrameworkCore.PostgreSQL;
+using Amazon.S3;
+using Amazon.Extensions.NETCore.Setup;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,6 +28,9 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.LoginPath = "/Account/Login"; 
         options.ExpireTimeSpan = TimeSpan.FromMinutes(60); // Log out after 1 hour
     });
+
+builder.Services.AddDefaultAWSOptions(builder.Configuration.GetAWSOptions());
+builder.Services.AddAWSService<IAmazonS3>();
 
 var app = builder.Build();
 
